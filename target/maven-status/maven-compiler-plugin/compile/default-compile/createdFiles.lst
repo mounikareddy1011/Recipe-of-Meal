@@ -1,0 +1,12 @@
+com\meal\bean\Nutinfo.class
+com\meal\controller\Controller.class
+com\meal\exception\MealNotFound.class
+com\meal\bean\Ingredient.class
+com\meal\controller\Controller$1.class
+com\meal\bean\Recipe.class
+com\meal\bean\IngredientInfo.class
+com\meal\config\SwaggerConfig.class
+com\meal\bean\MealInfo.class
+com\meal\Application.class
+com\meal\client\NutSearch.class
+com\meal\client\RecipeSearch.class

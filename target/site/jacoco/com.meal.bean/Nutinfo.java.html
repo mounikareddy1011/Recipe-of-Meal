@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Nutinfo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FoodRecipe</a> &gt; <a href="index.source.html" class="el_package">com.meal.bean</a> &gt; <span class="el_source">Nutinfo.java</span></div><h1>Nutinfo.java</h1><pre class="source lang-java linenums">package com.meal.bean;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+
+@JsonInclude(Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+<span class="fc" id="L10">public class Nutinfo {</span>
+	
+	private float nf_calories;
+	private float nf_total_fat;
+	private float nf_saturated_fat;
+	private float nf_cholesterol;
+	private float nf_sodium;
+	private float nf_total_carbohydrate;
+	private float nf_dietary_fiber;
+	private float nf_sugars;
+	private float nf_protein;
+	private float nf_potassium;
+	private float nf_p;
+	private float serving_weight_grams;
+	public float getNf_calories() {
+<span class="fc" id="L25">		return nf_calories;</span>
+	}
+	public void setNf_calories(float nf_calories) {
+<span class="fc" id="L28">		this.nf_calories = nf_calories;</span>
+<span class="fc" id="L29">	}</span>
+	public float getNf_total_fat() {
+<span class="fc" id="L31">		return nf_total_fat;</span>
+	}
+	public void setNf_total_fat(float nf_total_fat) {
+<span class="fc" id="L34">		this.nf_total_fat = nf_total_fat;</span>
+<span class="fc" id="L35">	}</span>
+	public float getNf_saturated_fat() {
+<span class="fc" id="L37">		return nf_saturated_fat;</span>
+	}
+	public void setNf_saturated_fat(float nf_saturated_fat) {
+<span class="fc" id="L40">		this.nf_saturated_fat = nf_saturated_fat;</span>
+<span class="fc" id="L41">	}</span>
+	public float getNf_cholesterol() {
+<span class="fc" id="L43">		return nf_cholesterol;</span>
+	}
+	public void setNf_cholesterol(float nf_cholesterol) {
+<span class="fc" id="L46">		this.nf_cholesterol = nf_cholesterol;</span>
+<span class="fc" id="L47">	}</span>
+	public float getNf_sodium() {
+<span class="fc" id="L49">		return nf_sodium;</span>
+	}
+	public void setNf_sodium(float nf_sodium) {
+<span class="fc" id="L52">		this.nf_sodium = nf_sodium;</span>
+<span class="fc" id="L53">	}</span>
+	public float getNf_total_carbohydrate() {
+<span class="fc" id="L55">		return nf_total_carbohydrate;</span>
+	}
+	public void setNf_total_carbohydrate(float nf_total_carbohydrate) {
+<span class="fc" id="L58">		this.nf_total_carbohydrate = nf_total_carbohydrate;</span>
+<span class="fc" id="L59">	}</span>
+	public float getNf_dietary_fiber() {
+<span class="fc" id="L61">		return nf_dietary_fiber;</span>
+	}
+	public void setNf_dietary_fiber(float nf_dietary_fiber) {
+<span class="fc" id="L64">		this.nf_dietary_fiber = nf_dietary_fiber;</span>
+<span class="fc" id="L65">	}</span>
+	public float getNf_sugars() {
+<span class="fc" id="L67">		return nf_sugars;</span>
+	}
+	public void setNf_sugars(float nf_sugars) {
+<span class="fc" id="L70">		this.nf_sugars = nf_sugars;</span>
+<span class="fc" id="L71">	}</span>
+	public float getNf_protein() {
+<span class="fc" id="L73">		return nf_protein;</span>
+	}
+	public void setNf_protein(float nf_protein) {
+<span class="fc" id="L76">		this.nf_protein = nf_protein;</span>
+<span class="fc" id="L77">	}</span>
+	public float getNf_potassium() {
+<span class="fc" id="L79">		return nf_potassium;</span>
+	}
+	public void setNf_potassium(float nf_potassium) {
+<span class="fc" id="L82">		this.nf_potassium = nf_potassium;</span>
+<span class="fc" id="L83">	}</span>
+	public float getNf_p() {
+<span class="fc" id="L85">		return nf_p;</span>
+	}
+	public void setNf_p(float nf_p) {
+<span class="fc" id="L88">		this.nf_p = nf_p;</span>
+<span class="fc" id="L89">	}</span>
+	public float getServing_weight_grams() {
+<span class="fc" id="L91">		return serving_weight_grams;</span>
+	}
+	public void setServing_weight_grams(float serving_weight_grams) {
+<span class="fc" id="L94">		this.serving_weight_grams = serving_weight_grams;</span>
+<span class="fc" id="L95">	}</span>
+	@Override
+	public String toString() {
+<span class="nc" id="L98">		return &quot;Nutinfo [nf_calories=&quot; + nf_calories + &quot;, nf_total_fat=&quot; + nf_total_fat + &quot;, nf_saturated_fat=&quot;</span>
+				+ nf_saturated_fat + &quot;, nf_cholesterol=&quot; + nf_cholesterol + &quot;, nf_sodium=&quot; + nf_sodium
+				+ &quot;, nf_total_carbohydrate=&quot; + nf_total_carbohydrate + &quot;, nf_dietary_fiber=&quot; + nf_dietary_fiber
+				+ &quot;, nf_sugars=&quot; + nf_sugars + &quot;, nf_protein=&quot; + nf_protein + &quot;, nf_potassium=&quot; + nf_potassium
+				+ &quot;, nf_p=&quot; + nf_p + &quot;, serving_weight_grams=&quot; + serving_weight_grams + &quot;]&quot;;
+	}
+
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

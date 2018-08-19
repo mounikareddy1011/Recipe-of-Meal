@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Controller.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FoodRecipe</a> &gt; <a href="index.source.html" class="el_package">com.meal.controller</a> &gt; <span class="el_source">Controller.java</span></div><h1>Controller.java</h1><pre class="source lang-java linenums">package com.meal.controller;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.meal.bean.Nutinfo;
+import com.meal.bean.Ingredient;
+import com.meal.bean.IngredientInfo;
+import com.meal.bean.Recipe;
+import com.meal.client.RecipeSearch;
+import com.meal.client.NutSearch;
+import com.meal.exception.MealNotFound;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@RestController
+@RequestMapping(&quot;/food&quot;)
+<span class="fc" id="L30">public class Controller {</span>
+
+<span class="fc" id="L32">	RecipeSearch foodSearchRestClient = new RecipeSearch();</span>
+<span class="fc" id="L33">	NutSearch nutritionalRestClient = new NutSearch();</span>
+
+	@RequestMapping(value = &quot;/search&quot;, method = RequestMethod.GET)
+	public ResponseEntity&lt;List&lt;IngredientInfo&gt;&gt; foodsearch(@RequestParam String mealName) {
+		try {
+<span class="fc" id="L38">			Recipe mealrespnse = foodSearchRestClient.getRestRequestForReciepe(mealName, &quot;&amp;q=&quot; + mealName,</span>
+					HttpMethod.GET);
+<span class="fc" id="L40">			Object obj = mealrespnse.getHits().get(0);</span>
+<span class="fc" id="L41">			HashMap&lt;String, Object&gt; test = (HashMap&lt;String, Object&gt;) obj;</span>
+<span class="fc" id="L42">			ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="fc" id="L43">			HashMap&lt;String, Object&gt; test1 = (HashMap&lt;String, Object&gt;) test.get(&quot;recipe&quot;);</span>
+<span class="fc" id="L44">			List&lt;IngredientInfo&gt; recipe = objectMapper.readValue(</span>
+<span class="fc" id="L45">					objectMapper.writeValueAsString(test1.get(&quot;ingredients&quot;)),</span>
+<span class="fc" id="L46">					new TypeReference&lt;List&lt;IngredientInfo&gt;&gt;() {</span>
+					});
+<span class="fc" id="L48">			return new ResponseEntity&lt;&gt;(recipe, HttpStatus.OK);</span>
+
+<span class="nc" id="L50">		} catch (Exception e) {</span>
+<span class="nc" id="L51">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L53">		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);</span>
+	}
+
+	@RequestMapping(value = &quot;/nutrient&quot;, method = RequestMethod.GET)
+	public ResponseEntity&lt;Nutinfo&gt; getCompleteNutrientValue(@RequestParam String mealName) {
+		try {
+<span class="fc" id="L59">			List&lt;IngredientInfo&gt; ingredient = foodsearch(mealName).getBody();</span>
+<span class="fc" id="L60">			Nutinfo totalCal = new Nutinfo();</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">			for (IngredientInfo ingredient2 : ingredient) {</span>
+<span class="fc" id="L62">				Ingredient ind = new Ingredient();</span>
+<span class="fc" id="L63">				ind.setQuery(ingredient2.getText());</span>
+<span class="fc" id="L64">				Nutinfo cal = getIngredientNutrient(ind);</span>
+<span class="fc" id="L65">				addCalories(totalCal, cal);</span>
+<span class="fc" id="L66">			}</span>
+<span class="fc" id="L67">			return new ResponseEntity&lt;&gt;(totalCal, HttpStatus.OK);</span>
+<span class="nc" id="L68">		} catch (Exception e) {</span>
+<span class="nc" id="L69">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L71">		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);</span>
+	}
+
+	private void addCalories(Nutinfo totalCal, Nutinfo cal) {
+<span class="fc" id="L75">		totalCal.setNf_calories(totalCal.getNf_calories() + cal.getNf_calories());</span>
+<span class="fc" id="L76">		totalCal.setNf_total_fat(totalCal.getNf_total_fat() + cal.getNf_total_fat());</span>
+<span class="fc" id="L77">		totalCal.setNf_saturated_fat(totalCal.getNf_saturated_fat() + cal.getNf_saturated_fat());</span>
+<span class="fc" id="L78">		totalCal.setNf_cholesterol(totalCal.getNf_cholesterol() + cal.getNf_cholesterol());</span>
+<span class="fc" id="L79">		totalCal.setNf_sodium(totalCal.getNf_sodium() + cal.getNf_sodium());</span>
+<span class="fc" id="L80">		totalCal.setNf_total_carbohydrate(totalCal.getNf_total_carbohydrate() + cal.getNf_total_carbohydrate());</span>
+<span class="fc" id="L81">		totalCal.setNf_dietary_fiber(totalCal.getNf_dietary_fiber() + cal.getNf_dietary_fiber());</span>
+<span class="fc" id="L82">		totalCal.setNf_sugars(totalCal.getNf_sugars() + cal.getNf_sugars());</span>
+<span class="fc" id="L83">		totalCal.setNf_protein(totalCal.getNf_protein() + cal.getNf_protein());</span>
+<span class="fc" id="L84">		totalCal.setNf_potassium(totalCal.getNf_potassium() + cal.getNf_potassium());</span>
+<span class="fc" id="L85">		totalCal.setNf_p(totalCal.getNf_p() + cal.getNf_p());</span>
+<span class="fc" id="L86">		totalCal.setServing_weight_grams(totalCal.getServing_weight_grams() + cal.getServing_weight_grams());</span>
+<span class="fc" id="L87">	}</span>
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public Nutinfo getIngredientNutrient(Ingredient ingredient) {
+		try {
+<span class="fc" id="L92">			HashMap&lt;String, Object&gt; mealResponse = (HashMap&lt;String, Object&gt;) nutritionalRestClient</span>
+<span class="fc" id="L93">					.getNutritionalValueOfIngredient(ingredient, HttpMethod.POST);</span>
+
+<span class="pc bpc" id="L95" title="2 of 4 branches missed.">			if (mealResponse != null  &amp;&amp; mealResponse.get(&quot;foods&quot;) != null) {</span>
+<span class="fc" id="L96">				List&lt;Object&gt; obj = (List&lt;Object&gt;) mealResponse.get(&quot;foods&quot;);</span>
+<span class="fc" id="L97">				ObjectMapper objectMapper = new ObjectMapper();</span>
+				Nutinfo calories;
+<span class="fc" id="L99">				calories = objectMapper.readValue(objectMapper.writeValueAsString(obj.get(0)), Nutinfo.class);</span>
+<span class="fc" id="L100">				return calories;</span>
+			}
+<span class="nc" id="L102">		} catch (IOException e) {</span>
+<span class="nc" id="L103">			e.printStackTrace();</span>
+<span class="nc" id="L104">		}</span>
+<span class="nc" id="L105">		return null;</span>
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
